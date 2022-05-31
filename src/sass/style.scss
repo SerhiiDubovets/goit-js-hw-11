@@ -1,6 +1,8 @@
 body{
    text-align: center;
    font-size: 15px;
+
+   background-color: wheat;
 }
 
 .form-block{
@@ -87,7 +89,8 @@ img{
 }
 
 .load-more{
-   margin-left: 10px;
+   margin-bottom: 20px;
+   padding: 10px;
    border-radius: 4px;
    border: 1px solid rgba(255,255,255,.3);
    background-color: #bdbec8;
