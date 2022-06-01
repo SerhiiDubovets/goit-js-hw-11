@@ -14,7 +14,7 @@ export default class NewsArticlesService {
       );
       const newHits = await response.json();
       this.page += 1;
-      return newHits.hits;
+      return newHits;
     } catch (error) {
       return error;
     }

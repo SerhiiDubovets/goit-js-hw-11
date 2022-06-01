@@ -28,7 +28,7 @@ function onSearch(e) {
     return;
   } else {
     newsArticlesService.resetPage();
-    newsArticlesService.fetchArticles().then(hits => {
+    newsArticlesService.fetchArticles().then(({ hits, totalHits }) => {
       if (hits.length === 0) {
         Notiflix.Notify.info(
           'Sorry, there are no images matching your search query. Please try again.',
@@ -38,8 +38,10 @@ function onSearch(e) {
         clearArticle();
         articlesMarkup(hits);
         refs.loadMoreBtm.classList.remove('is-hidden');
-        console.log(hits.length);
+        Notiflix.Notify.info(`Total of images: ${totalHits}`);
       }
+
+      console.log(totalHits);
     });
   }
 }
