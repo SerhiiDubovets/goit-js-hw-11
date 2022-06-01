@@ -22,23 +22,19 @@ function onSearch(e) {
   e.preventDefault();
   newsArticlesService.query = refs.inputEl.value.toLowerCase().trim();
   if (newsArticlesService.query === '') {
-    Notiflix.Notify.info(
-      'Sorry, there are no images matching your search query. Please try again.',
-    );
+    outputInfo();
     return;
   } else {
     newsArticlesService.resetPage();
     newsArticlesService.fetchArticles().then(({ hits, totalHits }) => {
       if (hits.length === 0) {
-        Notiflix.Notify.info(
-          'Sorry, there are no images matching your search query. Please try again.',
-        );
+        outputInfo();
         return;
+      } else if (hits.length < 40) {
+        outputMarkup(hits, totalHits);
       } else {
-        clearArticle();
-        articlesMarkup(hits);
         refs.loadMoreBtm.classList.remove('is-hidden');
-        Notiflix.Notify.info(`Total of images: ${totalHits}`);
+        outputMarkup(hits, totalHits);
       }
 
       // console.log(totalHits);
@@ -50,9 +46,7 @@ function onLoadMore() {
   newsArticlesService.fetchArticles().then(({ hits }) => {
     if (hits.length < 40) {
       hideloadMoreBtm();
-      Notiflix.Notify.info(
-        'Sorry, there are no images matching your search query. Please try again.',
-      );
+      Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
       return;
     } else {
       articlesMarkup(hits);
@@ -70,4 +64,14 @@ function clearArticle() {
 
 function hideloadMoreBtm() {
   refs.loadMoreBtm.classList.add('is-hidden');
+}
+
+function outputInfo() {
+  Notiflix.Notify.info('Sorry, there are no images matching your search query. Please try again.');
+}
+
+function outputMarkup(hits, totalHits) {
+  clearArticle();
+  articlesMarkup(hits);
+  Notiflix.Notify.info(`Total of images: ${totalHits}`);
 }
