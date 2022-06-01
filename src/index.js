@@ -41,13 +41,13 @@ function onSearch(e) {
         Notiflix.Notify.info(`Total of images: ${totalHits}`);
       }
 
-      console.log(totalHits);
+      // console.log(totalHits);
     });
   }
 }
 
 function onLoadMore() {
-  newsArticlesService.fetchArticles().then(hits => {
+  newsArticlesService.fetchArticles().then(({ hits }) => {
     if (hits.length < 40) {
       hideloadMoreBtm();
       Notiflix.Notify.info(
@@ -56,7 +56,6 @@ function onLoadMore() {
       return;
     } else {
       articlesMarkup(hits);
-      console.log(hits.length);
     }
   });
 }
