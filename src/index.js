@@ -2,6 +2,8 @@ import './sass/style.scss';
 import Notiflix from 'notiflix';
 import NewsArticlesService from './new-service.js';
 import articles from './templates/articles.hbs';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const refs = {
   formEl: document.querySelector('#search-form'),
@@ -12,6 +14,8 @@ const refs = {
 };
 
 const newsArticlesService = new NewsArticlesService();
+
+let lightbox = '';
 
 hideloadMoreBtm();
 
@@ -32,9 +36,11 @@ function onSearch(e) {
         return;
       } else if (hits.length < 40) {
         outputMarkup(hits, totalHits);
+        newSimpleLightbox();
       } else {
         refs.loadMoreBtm.classList.remove('is-hidden');
         outputMarkup(hits, totalHits);
+        newSimpleLightbox();
       }
 
       // console.log(totalHits);
@@ -50,6 +56,7 @@ function onLoadMore() {
       return;
     } else {
       articlesMarkup(hits);
+      lightbox.refresh();
     }
   });
 }
@@ -74,4 +81,12 @@ function outputMarkup(hits, totalHits) {
   clearArticle();
   articlesMarkup(hits);
   Notiflix.Notify.info(`Total of images: ${totalHits}`);
+}
+
+function newSimpleLightbox() {
+  lightbox = new SimpleLightbox('.gallery a', {
+    captionsData: 'alt',
+    captionDelay: 1000,
+  });
+  lightbox.refresh();
 }
